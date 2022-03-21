@@ -1,7 +1,7 @@
 import os
 
 from gym.wrappers.monitoring import video_recorder
-
+from gym import logger
 from .vec_env import VecEnvWrapper
 
 
@@ -28,7 +28,7 @@ class VecVideoRecorder(VecEnvWrapper):
                 and returns whether we should start recording or not.
             video_length: Length of recorded video
         """
-
+        
         VecEnvWrapper.__init__(self, venv)
         self.record_video_trigger = record_video_trigger
         self.video_recorder = None
@@ -45,14 +45,18 @@ class VecVideoRecorder(VecEnvWrapper):
         self.recorded_frames = 0
 
     def reset(self):
+        # print(f"In VecVideoRecorder::reset before venv.reset()")
         obs = self.venv.reset()
 
+        print(f"In VecVideoRecorder::reset before start_video_recorder()")
         self.start_video_recorder()
+        print(f"In VecVideoRecorder::reset after start_video_recorder()")
 
         return obs
 
     def start_video_recorder(self):
         self.close_video_recorder()
+        # print(f"In VecVideoRecorder::start_video_recorder after close_video_recorder()")
 
         base_path = os.path.join(
             self.directory, "{}_video".format(self.file_prefix)
@@ -60,8 +64,9 @@ class VecVideoRecorder(VecEnvWrapper):
         self.video_recorder = video_recorder.VideoRecorder(
             env=self.venv, base_path=base_path, metadata={"step_id": self.step_id}
         )
-
+        print(f"In VecVideoRecorder::start_video_recorder before video_recorder.capture_frame()")
         self.video_recorder.capture_frame()
+        print(f"In VecVideoRecorder::start_video_recorder after video_recorder.capture_frame()")
         self.recorded_frames = 1
         self.recording = True
 

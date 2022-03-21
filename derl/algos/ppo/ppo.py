@@ -61,6 +61,7 @@ class PPO:
         self.fps = 0
 
     def train(self, exit_cond=None):
+        print(f"In PPO::train before calling envs.reset()")
         obs = self.envs.reset()
         ep_rew = defaultdict(lambda: deque(maxlen=10))
         ep_pos = deque(maxlen=10)
@@ -248,8 +249,10 @@ class PPO:
             norm_rew=False,
             save_video=True,
         )
+        # print(f"In save_video before set_ob_rms")
         set_ob_rms(env, get_ob_rms(self.envs))
 
+        # print(f"In save_video before VecVideoRecorder")
         env = VecVideoRecorder(
             env,
             save_dir,
@@ -257,12 +260,15 @@ class PPO:
             video_length=cfg.PPO.VIDEO_LENGTH,
             file_prefix=self.file_prefix,
         )
+        print(f"In save_video before env.reset()")
         obs = env.reset()
 
+        print(f"In save_video before for loop")
         for _ in range(cfg.PPO.VIDEO_LENGTH + 1):
             _, act, _ = self.agent.act(obs)
             obs, _, _, _ = env.step(act)
 
+        print(f"In save_video before env.close()")
         env.close()
         # remove annoying meta file created by monitor
         os.remove(

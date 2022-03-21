@@ -45,6 +45,7 @@ def make_vec_envs(
         num_env = cfg.PPO.NUM_ENVS
 
     device = torch.device("cuda:0" if cfg.USE_GPU else "cpu")
+    # print(f"In make_vec_envs: using device {device}, cfg: {cfg.VECENV.TYPE}")
 
     if seed is None:
         seed = cfg.RNG_SEED
@@ -63,9 +64,11 @@ def make_vec_envs(
     else:
         raise ValueError("VECENV: {} is not supported.".format(cfg.VECENV.TYPE))
 
+    # print(f"In make_vec_envs: before VecNormalize")
     envs = VecNormalize(
         envs, gamma=cfg.PPO.GAMMA, training=training, ret=norm_rew
     )
+    print(f"In make_vec_envs: before VecPyTorch")
     envs = VecPyTorch(envs, device)
     return envs
 
@@ -110,6 +113,7 @@ class TimeLimitMask(gym.Wrapper):
         return obs, rew, done, info
 
     def reset(self, **kwargs):
+        # print(f"In TimeLimitMask::reset before calling env.reset()")
         return self.env.reset(**kwargs)
 
 
@@ -128,6 +132,7 @@ class RecordEpisodeStatistics(gym.Wrapper):
         self.length_queue = deque(maxlen=deque_size)
 
     def reset(self, **kwargs):
+        # print(f"In RecordEpisodeStatistics::reset before calling super.reset()")
         observation = super(RecordEpisodeStatistics, self).reset(**kwargs)
         self.episode_return = 0.0
         self.episode_length = 0

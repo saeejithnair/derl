@@ -11,6 +11,7 @@ class VecPyTorch(VecEnvWrapper):
         # TODO: Fix data types
 
     def reset(self):
+        print(f"In VecPyTorch::reset before calling venv.reset()")
         obs = self.venv.reset()
         obs = self._obs_np2torch(obs)
         return obs

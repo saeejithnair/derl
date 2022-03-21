@@ -138,6 +138,7 @@ def should_save_video():
     elif "vanilla" in cfg.EVO.TOURNAMENT_TYPE:
         return False
 
+    print(f"num_searched: {num_searched}, search space size: {cfg.EVO.SEARCH_SPACE_SIZE}, pop_size: {pop_size}")
     if num_searched > (cfg.EVO.SEARCH_SPACE_SIZE - pop_size):
         return True
     else:

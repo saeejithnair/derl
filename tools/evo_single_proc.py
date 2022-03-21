@@ -75,7 +75,8 @@ def ppo_train(xml_file, id_, parent_metadata=None):
     PPOTrainer.save_rewards(path=fu.id2path(id_, "rewards"))
 
     if eu.should_save_video():
-        PPOTrainer.save_video(os.path.join(cfg.OUT_DIR, "videos"))
+        print(f"Saving video")
+        # PPOTrainer.save_video(os.path.join(cfg.OUT_DIR, "videos"))
 
     # Create metadata to be used for next steps of evolution
     metadata = {}
