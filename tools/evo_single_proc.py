@@ -55,6 +55,7 @@ def ppo_train(xml_file, id_, parent_metadata=None):
         exit_cond = "population_init"
 
     PPOTrainer.train(exit_cond=exit_cond)
+    print(f"Exit condition: {exit_cond}")
 
     if (
         exit_cond == "population_init" and
@@ -141,6 +142,7 @@ def init_population(proc_id):
     # initial population size. In fact after the first round of tournament
     # selection population size can be as low as half of
     Path(init_done_path).touch()
+    print(f"Initialized population")
 
 
 def tournament_evolution(idx):

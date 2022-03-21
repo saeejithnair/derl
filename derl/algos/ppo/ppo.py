@@ -192,6 +192,7 @@ class PPO:
                 self.optimizer.step()
 
     def save_model(self, path=None):
+        print(f"Saving model to {path}")
         if not path:
             path = os.path.join(cfg.OUT_DIR, self.file_prefix + ".pt")
         torch.save([self.actor_critic, get_ob_rms(self.envs)], path)
@@ -236,9 +237,11 @@ class PPO:
             "vel": self.mean_vel,
             "metric": self.mean_metric
         }
+        print(f"Saving rewards to {path}")
         fu.save_json(stats, path)
 
     def save_video(self, save_dir):
+        print(f"Saving video to {save_dir}")
         env = make_vec_envs(
             xml_file=self.xml_file,
             training=False,
