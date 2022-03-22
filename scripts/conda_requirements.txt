@@ -1,0 +1,13 @@
+Pillow
+numpy
+Cython
+imageio
+glfw
+cffi
+fasteners
+mujoco_py==2.0.2.8
+pyyaml
+lxml
+gym==0.17.1
+networkx
+typing-extensions
