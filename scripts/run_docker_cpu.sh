@@ -9,7 +9,7 @@ echo "Executing in the docker (cpu image):"
 echo $cmd_line
 
 USER_ID=`id -u`
-MOUNT_DIR=''
+MOUNT_DIR='$HOME/work'
 
 docker run --rm --network host --ipc=host \
     -v ${MOUNT_DIR}:/user/derl/output \
